@@ -1,0 +1,53 @@
+{
+  "name": "react-router-tab",
+  "version": "0.0.1",
+  "description": "react, router, tabs, transition",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "files": [
+    "lib/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alsuehrckwl/react-router-tab.git"
+  },
+  "author": "alsuehrckwl <alsuehrckwl@naver.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel ./public/index.html --out-dir development",
+    "test": "echo \"No test specified\"",
+    "rollup": "rollup -c",
+    "build": "npm run rollup && npm version patch"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "babel-preset-react-app": "^9.1.2",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^1.19.1",
+    "rollup": "^2.3.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-babel-minify": "^10.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.2"
+  },
+  "dependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  }
+}
