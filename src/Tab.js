@@ -23,7 +23,7 @@ const Span = styled.span`
 `;
 
 const Tab = item => {
-  console.log(item);
+  // console.log(item);
   const {path, title, component} = item;
 
   return (

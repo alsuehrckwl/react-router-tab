@@ -1,6 +1,8 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 import Tab from './Tab';
+import useMount from './hooks/useMount';
+import {getXPosition} from './utils/eventUtil';
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -19,11 +21,11 @@ const Navigation = styled.div`
 
 const Nav = styled.nav`
   overflow: hidden;
-  overflow-x: auto;
   position: relative;
   width: 100%;
   height: 46px;
   transform: translateZ(0);
+  user-select: none;
 `;
 
 const Ul = styled.ul`
@@ -33,14 +35,59 @@ const Ul = styled.ul`
   list-style: none;
 `;
 
+const _initSlider = {
+  moving: false,
+  start: 0,
+  distance: 0,
+  x: 0,
+};
+
 const Tabs = ({routes}) => {
   const navRef = useRef();
+  const [slider, setSlider] = useState(_initSlider);
+
+  useMount(() => {
+    // console.log(navRef.current);
+  });
+
+  const onWheelNav = e => {
+    console.log(e);
+  };
+
+  const handleTouchStart = e => {
+    setSlider({
+      ...slider,
+      moving: true,
+      // x: getXPosition(e),
+    });
+  };
+
+  const handleTouchStop = e => {};
+
+  const handleTouchMove = e => {
+    const {moving, start, distance, x} = slider;
+
+    setSlider({
+      moving,
+      start,
+      distance,
+      x: getXPosition(e),
+    });
+  };
+
+  console.log(slider);
 
   return (
     <Wrapper>
       <Navigation role="navigation">
-        <Nav role="navigation" ref={navRef}>
-          <Ul>
+        <Nav
+          role="navigation"
+          ref={navRef}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchStop}
+          onTouchMove={handleTouchMove}
+        >
+          <Ul style={{transform: `translateX(${slider.x}px)`}}>
             {routes.map(item => (
               <Tab {...item} key={item.path} />
             ))}

@@ -1,7 +1,7 @@
-import React from 'react';
+import {useEffect} from 'react';
 
-const useMount = () => {
-
-}
+const useMount = fn => {
+  useEffect(fn, []);
+};
 
 export default useMount;
