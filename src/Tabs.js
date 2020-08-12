@@ -36,10 +36,12 @@ const Ul = styled.ul`
 `;
 
 const _initSlider = {
-  moving: false,
+  p: 0,
+  isMove: false,
   start: 0,
   distance: 0,
   x: 0,
+  translate: 0,
 };
 
 const Tabs = ({routes}) => {
@@ -55,27 +57,46 @@ const Tabs = ({routes}) => {
   };
 
   const handleTouchStart = e => {
+    const {start, distance, x} = slider;
+    console.log('3');
     setSlider({
       ...slider,
-      moving: true,
+      start: getXPosition(e),
+      isMove: true,
       // x: getXPosition(e),
     });
   };
 
-  const handleTouchStop = e => {};
+  const handleTouchStop = e => {
+    const {start, distance, x} = slider;
+
+    console.log('2');
+    setSlider({
+      ...slider,
+      isMove: false,
+      // start: getXPosition(e),
+      // distance,
+      // x: getXPosition(e),
+    });
+  };
 
   const handleTouchMove = e => {
-    const {moving, start, distance, x} = slider;
+    const {isMove, start, distance, translate} = slider;
+    console.log('1');
 
     setSlider({
-      moving,
+      p: getXPosition(e),
+      isMove,
       start,
+      x: getXPosition(e) - start,
+      translate: getXPosition(e) - start - translate,
       distance,
-      x: getXPosition(e),
     });
   };
 
   console.log(slider);
+
+  // ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
 
   return (
     <Wrapper>
@@ -87,7 +108,7 @@ const Tabs = ({routes}) => {
           onTouchEnd={handleTouchStop}
           onTouchMove={handleTouchMove}
         >
-          <Ul style={{transform: `translateX(${slider.x}px)`}}>
+          <Ul style={{transform: `translateX(${slider.translate}px)`}}>
             {routes.map(item => (
               <Tab {...item} key={item.path} />
             ))}
